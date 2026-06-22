@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>校車查詢</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 30px;
+      background: #f4f4f4;
+      zoom: 150%;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .line {
+      padding: 4px 0;
+    }
+
+    .result {
+      margin-top: 15px;
+      padding: 10px;
+      background: #e9f5ff;
+      border-left: 4px solid #2196F3;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h2>🚌115-1校車登記查詢</h2>
+  <h3>截至6/18(四)23:59前，已登記名單</h3>
+
+  <input type="text" id="id" placeholder="請輸入學號(新生身分證字號)">
+  <br>
+  <button onclick="search()">查詢</button>
+
+  <div id="result"></div>
+
+</div>
+
+<script>
+  // 🔥 這裡換成你的 Apps Script 網址
+  const API_URL = "https://script.google.com/macros/s/AKfycbyX2AHVL9qC6qaULGUdlq_dSDuIG_i2C-noir0A84zmIUQivdbRQthM7NsjiiwyRSFv9g/exec";
+
+  let data = [];
+
+  // 載入 Google Sheet 資料
+  async function loadData() {
+    try {
+      const res = await fetch(API_URL);
+      data = await res.json();
+      console.log("資料載入成功", data);
+    } catch (e) {
+      console.error("載入失敗", e);
+    }
+  }
+
+  // 查詢學號
+  function search() {
+    const id = document.getElementById("id").value.trim();
+    const result = document.getElementById("result");
+
+    const found = data.find(d =>
+      String(d["學號"]).trim() === String(id).trim()
+    );
+
+    if (found) {
+      result.innerHTML = `
+        <div class="result">
+          <div class="line">年段：${found["年段"]}</div>
+          <div class="line">學號：${found["學號"]}</div>
+          <div class="line">姓名：${found["姓名"]}</div>
+          <div class="line">【暑輔-搭乘模式】：${found["暑輔-搭乘模式"]}</div>
+          <div class="line">路線：${found["暑輔-搭乘路線"]}</div>
+          <div class="line">來程：${found["暑輔-來程站點"]}</div>
+          <div class="line">回程：${found["暑輔-回程站點"]}</div>
+
+          <div class="line">【115-1搭乘模式】：${found["115-1搭乘模式"]}</div>
+          <div class="line">路線：${found["搭乘路線"]}</div>
+          <div class="line">來程：${found["來程站點"]}</div>
+          <div class="line">回程：${found["回程站點"]}</div>
+        </div>
+      `;
+    } else {
+      result.innerHTML = `<div class="result">❌ 查無資料</div>`;
+    }
+  }
+
+  // 頁面載入時先抓資料
+  loadData();
+</script>
+
+</body>
+</html>
