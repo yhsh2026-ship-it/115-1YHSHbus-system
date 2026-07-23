@@ -55,7 +55,7 @@
 
 <script>
   // 🔥 這裡換成你的 Apps Script 網址
-  const API_URL = "https://script.google.com/macros/s/AKfycbxn-WWPwdYH77UWDvABMAvhquciI01As7srgMxxcXWnADw9NVRmtBAcqkF3GKqcG67o1w/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbzgSZWQw_5hMneSb2iasB41rCnVkMX4dJT2pXI_CGi4I1z4vTy7cCkb5qJM-zId0rC1Cw/exec";
 
   let data = [];
 
@@ -83,7 +83,7 @@
       result.innerHTML = `
         <div class="result">
           <div class="line">年段：${found["年段"]}</div>
-          <div class="line">學號：${found["學號"]}</div>
+          <div class="line">學號/身分證字號：${found["學號"]}</div>
           <div class="line">姓名：${found["姓名"]}</div>
           <div class="line">【暑輔-搭乘模式】：${found["暑輔-搭乘模式"]}</div>
           <div class="line">路線：${found["暑輔-搭乘路線"]}</div>
